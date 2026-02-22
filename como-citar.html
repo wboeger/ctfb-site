@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Como citar o Catálogo — CTFB · Fauna do Brasil</title>
+  <style>/* ═══════════════════════════════════════════════════
+   CTFB · Catálogo Taxonômico da Fauna do Brasil
+   Shared Design System
+═══════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=JetBrains+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --forest:   #0a120e;
+  --canopy:   #0f1f17;
+  --moss:     #162a1e;
+  --fern:     #1d3a28;
+  --teal:     #00e5a0;
+  --teal-dim: #00b87a;
+  --amber:    #f5a623;
+  --red:      #e05555;
+  --cream:    #f0ede4;
+  --mist:     #a8c4b0;
+  --ghost:    rgba(240,237,228,0.06);
+  --border:   rgba(0,229,160,0.15);
+  --glow:     0 0 40px rgba(0,229,160,0.18);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--forest);
+  color: var(--cream);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(10,18,14,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex; align-items: stretch;
+  padding: 0 2.5rem;
+  height: 56px;
+}
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem; letter-spacing: 0.22em;
+  color: var(--teal); text-transform: uppercase;
+  text-decoration: none;
+  display: flex; align-items: center;
+  margin-right: 2.5rem;
+  flex-shrink: 0;
+}
+.nav-logo span { color: var(--cream); opacity: 0.4; }
+
+/* Nav groups */
+.nav-groups {
+  display: flex; align-items: stretch; flex: 1;
+  list-style: none; gap: 0;
+}
+.nav-group {
+  position: relative;
+  display: flex; align-items: stretch;
+}
+.nav-group > a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.1em;
+  color: var(--mist); text-decoration: none;
+  text-transform: uppercase;
+  display: flex; align-items: center;
+  padding: 0 1.1rem;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+.nav-group > a:hover,
+.nav-group > a.active {
+  color: var(--teal);
+  border-bottom-color: var(--teal);
+}
+/* Dropdown */
+.nav-group:hover .dropdown { display: flex; }
+.dropdown {
+  display: none;
+  flex-direction: column;
+  position: absolute; top: 100%; left: 0;
+  min-width: 220px;
+  background: var(--canopy);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--teal);
+  z-index: 300;
+}
+.dropdown a {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.9rem; color: var(--mist);
+  text-decoration: none;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid rgba(0,229,160,0.06);
+  transition: background 0.15s, color 0.15s;
+}
+.dropdown a:last-child { border-bottom: none; }
+.dropdown a:hover { background: var(--ghost); color: var(--teal); }
+.dropdown a.active { color: var(--teal); background: var(--ghost); }
+
+.nav-cta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--forest);
+  background: var(--teal);
+  padding: 0 1.2rem;
+  text-decoration: none;
+  display: flex; align-items: center;
+  margin-left: auto;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.nav-cta:hover { background: var(--teal-dim); }
+
+/* ── PAGE HERO ── */
+.page-hero {
+  position: relative;
+  background: var(--canopy);
+  border-bottom: 1px solid var(--border);
+  padding: 4.5rem 3rem 3.5rem;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,160,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,160,0.025) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(ellipse 60% 100% at 85% 50%, black, transparent);
+}
+.page-hero-orb {
+  position: absolute;
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, rgba(0,229,160,0.07), transparent 70%);
+  top: -100px; right: -50px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.breadcrumb {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem; letter-spacing: 0.15em;
+  color: var(--mist); text-transform: uppercase;
+  margin-bottom: 1.4rem;
+  display: flex; align-items: center; gap: 0.5rem;
+  position: relative; z-index: 1;
+}
+.breadcrumb a { color: var(--teal); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { opacity: 0.35; }
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 900; line-height: 1.0;
+  position: relative; z-index: 1;
+  margin-bottom: 0.8rem;
+}
+.page-title em { color: var(--teal); font-style: italic; }
+.page-subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.1rem; font-weight: 300;
+  color: var(--mist); max-width: 580px;
+  position: relative; z-index: 1;
+  line-height: 1.7;
+}
+
+/* ── STATS BAR ── */
+.stats-bar {
+  background: var(--moss);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  display: grid;
+}
+.stats-bar.cols-4 { grid-template-columns: repeat(4,1fr); }
+.stats-bar.cols-3 { grid-template-columns: repeat(3,1fr); }
+.stats-bar.cols-2 { grid-template-columns: repeat(2,1fr); }
+.stat-item {
+  padding: 1.2rem 2rem;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem; font-weight: 700;
+  color: var(--teal); line-height: 1;
+}
+.stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.15em;
+  color: var(--mist); text-transform: uppercase;
+  margin-top: 0.35rem;
+}
+
+/* ── TWO-COLUMN LAYOUT ── */
+.page-body {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+}
+.content-col {
+  padding: 3.5rem 4rem 4rem 3rem;
+  border-right: 1px solid var(--border);
+  min-width: 0;
+}
+.sidebar {
+  padding: 3rem 1.8rem 3rem 2rem;
+  display: flex; flex-direction: column; gap: 1.8rem;
+}
+
+/* ── CONTENT TYPOGRAPHY ── */
+.section-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--teal);
+  display: flex; align-items: center; gap: 0.7rem;
+  margin-bottom: 0.9rem;
+}
+.section-tag::before {
+  content: ''; display: block;
+  width: 18px; height: 1px; background: var(--teal);
+}
+.content-section {
+  margin-bottom: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(0,229,160,0.07);
+}
+.content-section:last-child { border-bottom: none; margin-bottom: 0; }
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem; font-weight: 700;
+  line-height: 1.15; margin-bottom: 1.1rem; color: var(--cream);
+}
+h2 em { color: var(--teal); font-style: italic; }
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem; font-weight: 700;
+  margin-bottom: 0.6rem; color: var(--cream);
+}
+p {
+  color: var(--mist);
+  font-size: 1.02rem; font-weight: 300;
+  line-height: 1.85; margin-bottom: 1rem;
+}
+p:last-child { margin-bottom: 0; }
+a { color: var(--teal); }
+
+.pull-quote {
+  border-left: 3px solid var(--teal);
+  background: var(--ghost);
+  padding: 1.1rem 1.4rem;
+  margin: 1.6rem 0;
+}
+.pull-quote p {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; font-size: 1.1rem;
+  color: var(--cream); margin: 0; line-height: 1.6;
+}
+
+/* ── CARDS / GRIDS ── */
+.card-grid {
+  display: grid; gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin: 1.4rem 0;
+}
+.card-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.card-grid.cols-3 { grid-template-columns: repeat(3,1fr); }
+.card {
+  background: var(--canopy);
+  padding: 1.3rem 1.4rem;
+  text-decoration: none;
+  display: flex; flex-direction: column; gap: 0.3rem;
+  position: relative; overflow: hidden;
+  transition: background 0.2s;
+}
+.card::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  background: var(--teal);
+  transform: scaleY(0); transition: transform 0.22s;
+  transform-origin: bottom;
+}
+.card:hover { background: var(--fern); }
+.card:hover::before { transform: scaleY(1); }
+.card-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--teal);
+}
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 700; color: var(--cream);
+}
+.card-desc {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.88rem; color: var(--mist); font-weight: 300;
+}
+.card-url {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.56rem; color: var(--teal);
+  margin-top: 0.3rem; word-break: break-all;
+}
+.card.span2 { grid-column: span 2; }
+
+/* ── CITATION BOX ── */
+.citation-box {
+  background: var(--forest);
+  border: 1px solid var(--border);
+  padding: 1.3rem 1.5rem;
+  margin: 1.2rem 0;
+}
+.citation-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--teal);
+  margin-bottom: 0.7rem;
+}
+.citation-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; line-height: 1.75;
+  color: var(--mist);
+}
+.citation-text a { color: var(--teal); word-break: break-all; }
+.copy-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent; border: 1px solid var(--border);
+  color: var(--mist); padding: 0.3rem 0.7rem;
+  cursor: pointer; margin-top: 0.7rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+.copy-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+/* ── LICENSE ── */
+.license-block {
+  display: flex; align-items: flex-start; gap: 1rem;
+  background: var(--ghost);
+  border: 1px solid var(--border);
+  padding: 1rem 1.2rem; margin: 1.2rem 0;
+}
+.license-icon {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; color: var(--teal);
+  background: rgba(0,229,160,0.1);
+  padding: 0.25rem 0.5rem; white-space: nowrap; flex-shrink: 0;
+}
+.license-text {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.88rem; color: var(--mist);
+  font-weight: 300; line-height: 1.6;
+}
+
+/* ── SIDEBAR WIDGETS ── */
+.sb-block { border: 1px solid var(--border); overflow: hidden; }
+.sb-header {
+  background: var(--fern);
+  padding: 0.6rem 0.9rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--teal);
+}
+.sb-body { padding: 0.8rem; }
+.sb-body.no-pad { padding: 0; }
+
+.sidenav { list-style: none; }
+.sidenav li { border-bottom: 1px solid rgba(0,229,160,0.06); }
+.sidenav li:last-child { border-bottom: none; }
+.sidenav a {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.48rem 0.8rem;
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.88rem; color: var(--mist);
+  text-decoration: none; transition: color 0.15s, background 0.15s;
+}
+.sidenav a:hover { color: var(--teal); background: var(--ghost); }
+.sidenav a.active { color: var(--teal); font-weight: 600; }
+.sidenav .arrow { font-size: 0.6rem; opacity: 0.35; }
+.sidenav a.active .arrow { opacity: 1; }
+.sidenav .sub-item { padding-left: 1.5rem; font-size: 0.82rem; }
+
+.quick-links { display: flex; flex-direction: column; gap: 0.4rem; padding: 0.5rem; }
+.quick-link {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  background: var(--fern);
+  text-decoration: none; transition: background 0.15s;
+}
+.quick-link:hover { background: var(--moss); }
+.ql-icon {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.52rem; letter-spacing: 0.08em;
+  color: var(--forest); background: var(--teal);
+  padding: 0.12rem 0.3rem; text-transform: uppercase; flex-shrink: 0;
+}
+.ql-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem; color: var(--cream);
+}
+
+.version-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 0.38rem 0;
+  border-bottom: 1px solid rgba(0,229,160,0.06);
+}
+.version-row:last-child { border-bottom: none; }
+.vk {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--mist);
+}
+.vv {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.64rem; color: var(--teal);
+}
+
+.ouvidoria-block {
+  background: var(--canopy);
+  border: 1px solid var(--border);
+  padding: 1.1rem;
+  display: flex; flex-direction: column; gap: 0.7rem;
+}
+.ouvidoria-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--mist);
+}
+.ouvidoria-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem; font-weight: 700; color: var(--cream);
+}
+.ouvidoria-desc {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.84rem; color: var(--mist); font-weight: 300; line-height: 1.5;
+}
+.ouvidoria-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--forest); background: var(--teal);
+  padding: 0.35rem 0.7rem; text-decoration: none;
+  display: inline-block; transition: background 0.2s; align-self: flex-start;
+}
+.ouvidoria-link:hover { background: var(--teal-dim); }
+
+/* ── TABLE ── */
+table {
+  width: 100%; border-collapse: collapse;
+  margin: 1.2rem 0;
+}
+thead tr {
+  background: var(--fern);
+  border-bottom: 2px solid var(--teal);
+}
+th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--teal);
+  padding: 0.7rem 1rem; text-align: left;
+}
+td {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.9rem; color: var(--mist); font-weight: 300;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid rgba(0,229,160,0.06);
+}
+td a { color: var(--teal); }
+tbody tr:hover td { background: var(--ghost); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* ── CODE BLOCK ── */
+.code-block {
+  background: var(--forest);
+  border: 1px solid var(--border); margin: 1.2rem 0;
+}
+.code-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0,229,160,0.03);
+}
+.code-dots { display: flex; gap: 0.35rem; }
+.code-dot { width: 9px; height: 9px; border-radius: 50%; }
+.code-dot:nth-child(1) { background: #ff5f57; }
+.code-dot:nth-child(2) { background: #ffbd2e; }
+.code-dot:nth-child(3) { background: #28ca42; }
+.code-lang {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.1em;
+  color: var(--mist); text-transform: uppercase;
+}
+.code-body {
+  padding: 1.3rem 1.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem; line-height: 1.7;
+  overflow-x: auto; color: var(--mist);
+}
+.cc { color: rgba(168,196,176,0.38); } /* comment */
+.ck { color: #c792ea; }                /* keyword */
+.cs { color: var(--teal); }            /* string */
+.cf { color: var(--amber); }           /* function/var */
+.cn { color: #f78c6c; }                /* number */
+
+/* ── BADGES ── */
+.badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.56rem; letter-spacing: 0.1em;
+  border: 1px solid var(--border); color: var(--mist);
+  padding: 0.18rem 0.45rem; text-transform: uppercase; display: inline-block;
+}
+.badge.green { border-color: rgba(0,229,160,0.35); color: var(--teal); }
+.badge.amber { border-color: rgba(245,166,35,0.35); color: var(--amber); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--canopy);
+  border-top: 1px solid var(--border);
+  padding: 2rem 3rem;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-copy {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.07em; color: var(--mist);
+}
+.footer-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .page-body { grid-template-columns: 1fr; }
+  .content-col { padding: 2.5rem 1.5rem; border-right: none; }
+  .sidebar { padding: 2rem 1.5rem; border-top: 1px solid var(--border); }
+  .nav-groups { display: none; }
+  .stats-bar.cols-4 { grid-template-columns: 1fr 1fr; }
+  .card-grid.cols-3 { grid-template-columns: 1fr; }
+  .card-grid.cols-2 { grid-template-columns: 1fr; }
+  .card.span2 { grid-column: span 1; }
+  .page-hero { padding: 3.5rem 1.5rem 2.5rem; }
+}
+</style>
+</head>
+<body>
+
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">CTFB <span>/ Fauna do Brasil</span></a>
+    <ul class="nav-groups">
+      <li class="nav-group">
+        <a href="index.html">Sobre</a>
+        <div class="dropdown">
+          <a href="index.html">O Catálogo</a>
+          <a href="como-citar.html">Como citar</a>
+          <a href="normas.html">Normas do CTFB</a>
+          <a href="fontes-de-dados.html">Fontes de dados</a>
+        </div>
+      </li>
+      <li class="nav-group">
+        <a href="download.html">Dados</a>
+        <div class="dropdown">
+          <a href="download.html">Download por grupos</a>
+          <a href="scripts-r.html">Scripts do R</a>
+          <a href="links-externos.html">Links externos</a>
+          <a href="arquivos.html">Arquivos</a>
+        </div>
+      </li>
+      <li class="nav-group">
+        <a href="publicacoes.html">Publicações</a>
+        <div class="dropdown">
+          <a href="publicacoes.html">Artigos sobre o CTFB</a>
+          <a href="citacoes.html">Citações do CTFB</a>
+        </div>
+      </li>
+      <li class="nav-group">
+        <a href="reunioes.html">Comunidade</a>
+        <div class="dropdown">
+          <a href="reunioes.html">Reuniões do CTFB</a>
+          <a href="reunioes-online.html">Reuniões Online</a>
+          <a href="oficinas.html">Oficinas do CTFB</a>
+          <a href="congresso-zoo.html">34° Congresso Bras. Zoo.</a>
+          <a href="bzg2023.html">Brazilian Zoology Group 2023</a>
+          <a href="palestras.html">Palestras</a>
+          <a href="material-divulgacao.html">Material de divulgação</a>
+        </div>
+      </li>
+      <li class="nav-group">
+        <a href="noticias.html">Notícias</a>
+        <div class="dropdown">
+          <a href="noticias.html">Notícias recentes</a>
+          <a href="boletim.html">Boletim Informativo</a>
+          <a href="noticias-arquivadas.html">Notícias arquivadas</a>
+        </div>
+      </li>
+      <li class="nav-group">
+        <a href="demandas.html">Curadoria</a>
+        <div class="dropdown">
+          <a href="demandas.html">Demandas / Controle</a>
+          <a href="tutoriais.html">Tutoriais</a>
+          <a href="arquivos.html">Termo de Compromisso</a>
+        </div>
+      </li>
+    </ul>
+    <a href="http://fauna.jbrj.gov.br/fauna" class="nav-cta" target="_blank">Acessar Sistema →</a>
+  </div>
+</nav>
+
+
+<div class="page-hero">
+  <div class="page-hero-orb"></div>
+  <div class="breadcrumb">
+    <a href="index.html">Início</a>
+    <span class="sep">/</span>
+    Como citar o Catálogo
+  </div>
+  <h1 class="page-title">Como citar<br><em>o Catálogo</em></h1>
+  <p class="page-subtitle">Modelos de citação para diferentes contextos de uso do CTFB. Modifique conforme as datas e versões utilizadas.</p>
+</div>
+
+
+
+<div class="page-body">
+  <main class="content-col">
+    
+<div class="content-section reveal">
+  <div class="section-tag">Citação do projeto</div>
+  <h2>Citar o CTFB <em>como projeto ou site</em></h2>
+  <div class="citation-box">
+    <div class="citation-label">Modelo — projeto / site completo</div>
+    <div class="citation-text">Brazilian Zoology Group (2024). <em>Catálogo Taxonômico da Fauna do Brasil</em>. Available at <a href="http://fauna.jbrj.gov.br/fauna" target="_blank">http://fauna.jbrj.gov.br/fauna</a></div>
+    <button class="copy-btn" onclick="copyText('Brazilian Zoology Group (2024). Catálogo Taxonômico da Fauna do Brasil. Available at http://fauna.jbrj.gov.br/fauna', this)">Copiar</button>
+  </div>
+</div>
+
+<div class="content-section reveal">
+  <div class="section-tag">Citação via GBIF / IPT</div>
+  <h2>Citar via <em>IPT ou GBIF</em></h2>
+  <div class="citation-box">
+    <div class="citation-label">Modelo — IPT via GBIF</div>
+    <div class="citation-text">Brazilian Zoology Group (2024). <em>Catálogo Taxonômico da Fauna do Brasil</em>. Version &lt;1.18&gt;. Instituto de Pesquisas Jardim Botânico do Rio de Janeiro. Checklist dataset.<br>
+    <a href="https://doi.org/10.15468/c4cauy" target="_blank">https://doi.org/10.15468/c4cauy</a> accessed via GBIF.org on 2024-08-20.</div>
+    <button class="copy-btn" onclick="copyText('Brazilian Zoology Group (2024). Catálogo Taxonômico da Fauna do Brasil. Version 1.18. Instituto de Pesquisas Jardim Botânico do Rio de Janeiro. Checklist dataset. https://doi.org/10.15468/c4cauy accessed via GBIF.org on 2024-08-20.', this)">Copiar</button>
+  </div>
+</div>
+
+<div class="content-section reveal">
+  <div class="section-tag">Citação de táxon específico</div>
+  <h2>Citar um <em>táxon individual</em></h2>
+  <div class="citation-box">
+    <div class="citation-label">Modelo — grupo taxonômico específico</div>
+    <div class="citation-text">Oliveira OMP, Beneti JS, Stampar SN 2024. Actiniaria in <em>Catálogo Taxonômico da Fauna do Brasil</em>. Available in: &lt;<a href="http://fauna.jbrj.gov.br/fauna/faunadobrasil/184" target="_blank">http://fauna.jbrj.gov.br/fauna/faunadobrasil/184</a>&gt;. Access on: 29 jun. 2024</div>
+    <button class="copy-btn" onclick="copyText('Oliveira OMP, Beneti JS, Stampar SN 2024. Actiniaria in Catálogo Taxonômico da Fauna do Brasil. Available in: http://fauna.jbrj.gov.br/fauna/faunadobrasil/184. Access on: 29 jun. 2024', this)">Copiar modelo</button>
+  </div>
+</div>
+
+<div class="content-section reveal">
+  <div class="section-tag">Citação via Zenodo</div>
+  <h2>Citar versão <em>arquivada no Zenodo</em></h2>
+  <p>Se os dados forem usados para análises, recomenda-se fortemente usar os IPTs, pois estão publicados, têm DOI e versões com datas definidas informadas no site do IPT do Jardim Botânico.</p>
+  <div class="citation-box">
+    <div class="citation-label">Modelo — Zenodo</div>
+    <div class="citation-text">Brazilian Zoology Group (2024): <em>Catálogo Taxonômico da Fauna do Brasil</em>. v1.2. Instituto de Pesquisas Jardim Botânico do Rio de Janeiro. Dataset/Checklist.<br>
+    <a href="https://doi.org/10.5281/zenodo.10491756" target="_blank">https://doi.org/10.5281/zenodo.10491756</a></div>
+    <button class="copy-btn" onclick="copyText('Brazilian Zoology Group (2024): Catálogo Taxonômico da Fauna do Brasil. v1.2. Instituto de Pesquisas Jardim Botânico do Rio de Janeiro. Dataset/Checklist. https://doi.org/10.5281/zenodo.10491756', this)">Copiar</button>
+  </div>
+</div>
+
+  </main>
+  
+<aside class="sidebar">
+  <div class="sb-block">
+    <div class="sb-header">Navegação do site</div>
+    <div class="sb-body no-pad">
+      <ul class="sidenav"><li><a href="index.html">O Catálogo<span class="arrow">→</span></a></li>
+<li><a href="boletim.html">Boletim Informativo CTFB<span class="arrow">→</span></a></li>
+<li><a href="download.html">Download de grupos específicos<span class="arrow">→</span></a></li>
+<li><a href="fontes-de-dados.html">Fontes de dados<span class="arrow">→</span></a></li>
+<li><a href="como-citar.html" class="active">Como citar o Catálogo<span class="arrow">→</span></a></li>
+<li><a href="normas.html">Normas do CTFB<span class="arrow">→</span></a></li>
+<li><a href="noticias.html">Notícias<span class="arrow">→</span></a></li>
+<li><a href="arquivos.html">Arquivos<span class="arrow">→</span></a></li>
+<li><a href="bzg2023.html">Brazilian Zoology Group 2023<span class="arrow">→</span></a></li>
+<li><a href="tutoriais.html">Tutoriais<span class="arrow">→</span></a></li>
+<li><a href="material-divulgacao.html">Material de divulgação<span class="arrow">→</span></a></li>
+<li><a href="publicacoes.html">Publicações CTFB<span class="arrow">→</span></a></li>
+<li><a href="scripts-r.html">Scripts do R<span class="arrow">→</span></a></li>
+<li><a href="reunioes.html">Reuniões do CTFB<span class="arrow">→</span></a></li>
+<li><a href="palestras.html">Palestras<span class="arrow">→</span></a></li>
+<li><a href="demandas.html">Demandas / Controle<span class="arrow">→</span></a></li>
+<li><a href="noticias-arquivadas.html">Notícias arquivadas<span class="arrow">→</span></a></li>
+<li><a href="links-externos.html">Links externos<span class="arrow">→</span></a></li>
+</ul>
+    </div>
+  </div>
+
+  <div class="sb-block">
+    <div class="sb-header">Acesso rápido</div>
+    <div class="sb-body no-pad">
+      <div class="quick-links">
+        <a class="quick-link" href="http://fauna.jbrj.gov.br/fauna" target="_blank">
+          <span class="ql-icon">WEB</span><span class="ql-text">Sistema de busca</span>
+        </a>
+        <a class="quick-link" href="https://ipt.jbrj.gov.br/jbrj/resource?r=catalogo_taxonomico_da_fauna_do_brasil" target="_blank">
+          <span class="ql-icon">IPT</span><span class="ql-text">Download DwC-A</span>
+        </a>
+        <a class="quick-link" href="https://dspace.jbrj.gov.br/jspui/bitstream/doc/124/1/Web%20Service%20Cat%c3%a1logo%20Taxon%c3%b4mico%20da%20Fauna%20do%20Brasil.pdf" target="_blank">
+          <span class="ql-icon">API</span><span class="ql-text">Documentação REST</span>
+        </a>
+        <a class="quick-link" href="https://doi.org/10.5281/zenodo.10491756" target="_blank">
+          <span class="ql-icon">DOI</span><span class="ql-text">Zenodo BZG2023</span>
+        </a>
+        <a class="quick-link" href="https://cran.r-project.org/web/packages/faunabr/index.html" target="_blank">
+          <span class="ql-icon">R</span><span class="ql-text">Pacote faunabr (CRAN)</span>
+        </a>
+        <a class="quick-link" href="https://forms.gle/kfpRj11c4zpvkaFS9" target="_blank">
+          <span class="ql-icon">FORM</span><span class="ql-text">Termo de Compromisso</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="sb-block">
+    <div class="sb-header">Versão atual</div>
+    <div class="sb-body">
+      <div class="version-row"><span class="vk">Versão</span><span class="vv">BZG2024-2034</span></div>
+      <div class="version-row"><span class="vk">Esp. válidas</span><span class="vv">125.138</span></div>
+      <div class="version-row"><span class="vk">Nominais</span><span class="vv">133.691</span></div>
+      <div class="version-row"><span class="vk">Especialistas</span><span class="vv">800+</span></div>
+      <div class="version-row"><span class="vk">Licença</span><span class="vv">CC BY 4.0</span></div>
+      <div class="version-row"><span class="vk">Formato</span><span class="vv">DwC-A / JSON</span></div>
+    </div>
+  </div>
+
+  <div class="ouvidoria-block">
+    <div class="ouvidoria-label">Canal oficial</div>
+    <div class="ouvidoria-title">Ouvidoria do CTFB</div>
+    <p class="ouvidoria-desc">Para sugestões, dúvidas, reclamações ou elogios, utilize o canal oficial de ouvidoria do governo federal.</p>
+    <a class="ouvidoria-link" href="https://falabr.cgu.gov.br/web/home" target="_blank">Acessar ouvidoria →</a>
+  </div>
+
+  <div style="text-align:center;padding:0.5rem 0">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--mist);letter-spacing:0.08em">
+      Contato: <a href="mailto:faunadobrasilctfb@gmail.com" style="color:var(--teal)">faunadobrasilctfb@gmail.com</a>
+    </p>
+  </div>
+</aside>
+
+</div>
+
+
+<footer>
+  <span class="footer-copy">© 2026 JBRJ — Instituto de Pesquisas Jardim Botânico do Rio de Janeiro · MMA · MCTi</span>
+  <div class="footer-badges">
+    <span class="badge green">CC BY 4.0</span>
+    <span class="badge">DwC-A</span>
+    <span class="badge green">GBIF Partner</span>
+    <span class="badge">Darwin Core</span>
+    <span class="badge">Zenodo</span>
+  </div>
+</footer>
+
+
+<script>// ── CTFB Shared JS ──
+
+// Mark active nav link
+(function() {
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('nav a').forEach(a => {
+    if (a.getAttribute('href') === path) a.classList.add('active');
+  });
+})();
+
+// Scroll reveal
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
+  });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// Copy to clipboard utility
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copiado ✓';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+// Animate number counters
+function animateCounter(el, target, decimals = 0) {
+  if (!el) return;
+  const duration = 1800;
+  const start = performance.now();
+  function update(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const val = eased * target;
+    el.textContent = val.toLocaleString('pt-BR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+    if (t < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+</script>
+</body>
+</html>
