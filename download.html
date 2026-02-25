@@ -539,6 +539,22 @@ footer {
 }
 .footer-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
+/* ── LANG TABS ── */
+.lang-tabs {
+  display: flex; gap: 0; margin-bottom: 0;
+  border-bottom: 2px solid var(--border);
+}
+.lang-tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+  background: transparent; border: none; border-bottom: 2px solid transparent;
+  color: var(--mist); padding: 0.5rem 1.1rem;
+  cursor: pointer; margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.lang-tab:hover { color: var(--teal); }
+.lang-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+
 /* ── REVEAL ── */
 .reveal {
   opacity: 0; transform: translateY(18px);
@@ -683,6 +699,91 @@ footer {
 </div>
 
 <div class="content-section reveal">
+  <div class="section-tag">Scripts de automação</div>
+  <h2>Gerar CSVs por filo <em>automaticamente</em></h2>
+  <p>Os scripts abaixo baixam a versão mais recente do DwC-A diretamente do IPT, leem o arquivo de taxa e exportam um CSV separado por filo — sem intervenção manual. Execute localmente após instalar as dependências indicadas.</p>
+
+  <div class="lang-tabs">
+    <button class="lang-tab active" onclick="switchLang('r', this)">R</button>
+    <button class="lang-tab" onclick="switchLang('python', this)">Python</button>
+  </div>
+
+  <div id="lang-r" class="code-block" style="margin-top:0;border-top:none">
+    <div class="code-header">
+      <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+      <span class="code-lang">R</span>
+      <button class="copy-btn" onclick="copyBlock('lang-r', this)">Copiar</button>
+    </div>
+    <div class="code-body"><span class="cc"># Dependências: httr, readr, dplyr</span>
+<span class="cc"># install.packages(c("httr", "readr", "dplyr"))</span>
+<span class="ck">library</span>(httr); <span class="ck">library</span>(readr); <span class="ck">library</span>(dplyr)
+
+<span class="cc"># URL do DwC-A mais recente no IPT</span>
+<span class="cf">ipt_url</span> &lt;- <span class="cs">"https://ipt.jbrj.gov.br/jbrj/archive.do?r=catalogo_taxonomico_da_fauna_do_brasil"</span>
+
+<span class="cf">tmp_zip</span> &lt;- <span class="ck">tempfile</span>(fileext = <span class="cs">".zip"</span>)
+<span class="ck">message</span>(<span class="cs">"Baixando DwC-A do IPT..."</span>)
+<span class="ck">GET</span>(ipt_url, <span class="ck">write_disk</span>(tmp_zip, overwrite = <span class="ck">TRUE</span>))
+
+<span class="cf">tmp_dir</span> &lt;- <span class="ck">file.path</span>(<span class="ck">tempdir</span>(), <span class="cs">"ctfb_dwca"</span>)
+<span class="ck">unzip</span>(tmp_zip, exdir = tmp_dir)
+
+<span class="cf">taxon_file</span> &lt;- <span class="ck">list.files</span>(tmp_dir, pattern = <span class="cs">"taxon\\.txt"</span>, full.names = <span class="ck">TRUE</span>)
+<span class="cf">taxa</span> &lt;- <span class="ck">read_tsv</span>(taxon_file, show_col_types = <span class="ck">FALSE</span>)
+
+<span class="ck">dir.create</span>(<span class="cs">"csv_por_filo"</span>, showWarnings = <span class="ck">FALSE</span>)
+taxa |&gt;
+  <span class="ck">filter</span>(taxonomicStatus == <span class="cs">"accepted"</span>, !<span class="ck">is.na</span>(phylum), phylum != <span class="cs">""</span>) |&gt;
+  <span class="ck">group_by</span>(phylum) |&gt;
+  <span class="ck">group_walk</span>(<span class="ck">function</span>(df, key) {
+    nome &lt;- <span class="ck">gsub</span>(<span class="cs">"[^A-Za-z0-9_]"</span>, <span class="cs">"_"</span>, key$phylum)
+    <span class="ck">write_csv</span>(df, <span class="ck">file.path</span>(<span class="cs">"csv_por_filo"</span>, <span class="ck">paste0</span>(nome, <span class="cs">".csv"</span>)))
+    <span class="ck">message</span>(<span class="cs">"  → "</span>, key$phylum, <span class="cs">" ("</span>, <span class="ck">nrow</span>(df), <span class="cs">" spp.)"</span>)
+  })
+<span class="ck">message</span>(<span class="cs">"Concluído. Arquivos em csv_por_filo/"</span>)</div>
+  </div>
+
+  <div id="lang-python" class="code-block" style="display:none;margin-top:0;border-top:none">
+    <div class="code-header">
+      <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+      <span class="code-lang">Python</span>
+      <button class="copy-btn" onclick="copyBlock('lang-python', this)">Copiar</button>
+    </div>
+    <div class="code-body"><span class="cc"># Dependências: requests, pandas</span>
+<span class="cc"># pip install requests pandas</span>
+
+<span class="ck">import</span> requests, zipfile, io, os, re
+<span class="ck">import</span> pandas <span class="ck">as</span> pd
+
+<span class="cc"># URL do DwC-A mais recente no IPT</span>
+<span class="cf">IPT_URL</span> = <span class="cs">"https://ipt.jbrj.gov.br/jbrj/archive.do?r=catalogo_taxonomico_da_fauna_do_brasil"</span>
+
+<span class="ck">print</span>(<span class="cs">"Baixando DwC-A do IPT..."</span>)
+<span class="cf">r</span> = requests.get(IPT_URL, timeout=<span class="cn">120</span>)
+r.raise_for_status()
+
+<span class="ck">with</span> zipfile.ZipFile(io.BytesIO(r.content)) <span class="ck">as</span> <span class="cf">z</span>:
+    <span class="cf">taxon_name</span> = next(f <span class="ck">for</span> f <span class="ck">in</span> z.namelist() <span class="ck">if</span> <span class="cs">"taxon"</span> <span class="ck">in</span> f.lower())
+    <span class="ck">with</span> z.open(taxon_name) <span class="ck">as</span> <span class="cf">f</span>:
+        <span class="cf">taxa</span> = pd.read_csv(f, sep=<span class="cs">"\t"</span>, low_memory=<span class="ck">False</span>)
+
+<span class="cf">valid</span> = taxa[
+    (taxa[<span class="cs">"taxonomicStatus"</span>] == <span class="cs">"accepted"</span>) &amp;
+    taxa[<span class="cs">"phylum"</span>].notna() &amp;
+    (taxa[<span class="cs">"phylum"</span>] != <span class="cs">""</span>)
+]
+
+os.makedirs(<span class="cs">"csv_por_filo"</span>, exist_ok=<span class="ck">True</span>)
+<span class="ck">for</span> <span class="cf">phylum</span>, <span class="cf">group</span> <span class="ck">in</span> valid.groupby(<span class="cs">"phylum"</span>):
+    <span class="cf">nome</span> = re.sub(<span class="cs">r"[^\w]"</span>, <span class="cs">"_"</span>, phylum)
+    group.to_csv(<span class="ck">f</span><span class="cs">"csv_por_filo/{nome}.csv"</span>, index=<span class="ck">False</span>)
+    <span class="ck">print</span>(<span class="ck">f</span><span class="cs">"  → {phylum} ({len(group)} spp.)"</span>)
+
+<span class="ck">print</span>(<span class="cs">"Concluído. Arquivos em csv_por_filo/"</span>)</div>
+  </div>
+</div>
+
+<div class="content-section reveal">
   <div class="section-tag">Pacote R</div>
   <h2>Download via <em>pacote faunabr</em></h2>
   <p>O pacote <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;color:var(--teal);background:rgba(0,229,160,0.08);padding:0.1em 0.3em">faunabr</code> no CRAN permite acesso direto ao CTFB a partir do R, com funções para busca, filtro e espacialização dos dados.</p>
@@ -822,6 +923,24 @@ document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 // Copy to clipboard utility
 function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copiado ✓';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+// Lang tab switcher
+function switchLang(lang, btn) {
+  document.querySelectorAll('.lang-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('lang-r').style.display      = lang === 'r'      ? 'block' : 'none';
+  document.getElementById('lang-python').style.display = lang === 'python' ? 'block' : 'none';
+}
+
+// Copy code block content
+function copyBlock(blockId, btn) {
+  const text = document.getElementById(blockId).querySelector('.code-body').innerText;
   navigator.clipboard.writeText(text).then(() => {
     const orig = btn.textContent;
     btn.textContent = 'Copiado ✓';
